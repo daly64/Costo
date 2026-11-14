@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -25,7 +26,8 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -60,23 +62,26 @@ fun IngredientsScreen(store: Store) {
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
             Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 100.dp),
+            contentPadding = PaddingValues(bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             item { BrandHeader("Ingrédients", "Prix d'achat de tes matières premières") }
+            item {
+                Button(
+                    onClick = { creating = true },
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp).height(48.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = C.Bleu, contentColor = Color.White),
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                    Text(" Ajouter un ingrédient", fontWeight = FontWeight.Bold)
+                }
+            }
             items(d.ingredients, key = { it.id }) { ing ->
                 val uses = d.products.count { p -> p.recipe.any { it.ingredientId == ing.id } }
                 IngredientRow(ing, uses) { editing = ing }
             }
         }
-        ExtendedFloatingActionButton(
-            onClick = { creating = true },
-            icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-            text = { Text("Ajouter un ingrédient") },
-            containerColor = C.Bleu, contentColor = Color.White,
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp),
-        )
     }
 
     editing?.let { ing ->

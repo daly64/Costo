@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,7 +25,8 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
@@ -68,11 +70,12 @@ fun DrinksScreen(store: Store, onOpen: (String) -> Unit) {
     Box(Modifier.fillMaxSize()) {
         LazyColumn(
             Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(bottom = 100.dp),
+            contentPadding = PaddingValues(bottom = 24.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             item { BrandHeader("Boissons", "Coût de revient par tasse et marge") }
             item {
+                Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp), verticalAlignment = Alignment.CenterVertically) {
                 OutlinedTextField(
                     value = query, onValueChange = { query = it },
                     placeholder = { Text("Rechercher une boisson") },
@@ -82,8 +85,24 @@ fun DrinksScreen(store: Store, onOpen: (String) -> Unit) {
                         unfocusedBorderColor = C.Bord, focusedBorderColor = C.Bleu,
                         unfocusedContainerColor = C.Carte, focusedContainerColor = C.Carte,
                     ),
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                    modifier = Modifier.weight(1f),
                 )
+                Spacer(Modifier.width(10.dp))
+                Button(
+                    onClick = {
+                        val id = store.newId("n")
+                        store.saveProduct(Product(id, "Nouvelle boisson", category ?: Seed.CAFES))
+                        onOpen(id)
+                    },
+                    modifier = Modifier.height(56.dp),
+                    shape = RoundedCornerShape(12.dp),
+                    contentPadding = PaddingValues(horizontal = 14.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = C.Bleu, contentColor = Color.White),
+                ) {
+                    Icon(Icons.Filled.Add, contentDescription = null)
+                    Text("Ajouter", fontWeight = FontWeight.Bold)
+                }
+                }
             }
             item {
                 Row(
@@ -99,18 +118,6 @@ fun DrinksScreen(store: Store, onOpen: (String) -> Unit) {
                 Text("Aucune boisson trouvée.", color = C.Gris, modifier = Modifier.padding(20.dp))
             }
         }
-        ExtendedFloatingActionButton(
-            onClick = {
-                val id = store.newId("n")
-                store.saveProduct(Product(id, "Nouvelle boisson", category ?: Seed.CAFES))
-                onOpen(id)
-            },
-            icon = { Icon(Icons.Filled.Add, contentDescription = null) },
-            text = { Text("Nouvelle boisson") },
-            containerColor = C.Bleu, contentColor = Color.White,
-            shape = RoundedCornerShape(16.dp),
-            modifier = Modifier.align(Alignment.BottomEnd).padding(20.dp),
-        )
     }
 }
 
