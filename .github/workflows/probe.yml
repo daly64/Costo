@@ -1,0 +1,13 @@
+name: probe
+on: [push]
+permissions:
+  contents: write
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          mkdir out && cd out && git init -q -b builds
+          echo "actions ok $(date -u)" > status.txt
+          git add . && git -c user.name=ci -c user.email=ci@costo commit -qm probe
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}" builds
