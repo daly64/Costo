@@ -3,6 +3,7 @@ package tn.costo.ui
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,6 +17,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -24,19 +27,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import tn.costo.CloudSync
 import tn.costo.Platform
 import tn.costo.Store
 import tn.costo.applyMenu
 import tn.costo.parseMenu
 
 @Composable
-fun SettingsScreen(store: Store, platform: Platform) {
+fun SettingsScreen(store: Store, platform: Platform, sync: CloudSync) {
     val s = store.data.settings
     val scope = rememberCoroutineScope()
     var syncing by remember { mutableStateOf(false) }
@@ -52,9 +57,32 @@ fun SettingsScreen(store: Store, platform: Platform) {
                 NumberField(s.fixedCost, { v -> store.settings { it.copy(fixedCost = v) } }, "Coût fixe par tasse", suffix = "DT")
                 Text("Électricité, eau, gaz et nettoyage. Pour l'affiner : factures du mois ÷ tasses vendues dans le mois.",
                     fontSize = 13.sp, color = C.Gris)
+                NumberField(s.laborCost, { v -> store.settings { it.copy(laborCost = v) } }, "Main-d'œuvre par tasse", suffix = "DT")
+                Text("Salaires du mois ÷ tasses vendues dans le mois. 0,250 DT par défaut, à ajuster avec tes vrais chiffres.",
+                    fontSize = 13.sp, color = C.Gris)
                 NumberField(s.lossPct, { v -> store.settings { it.copy(lossPct = v) } }, "Pertes", suffix = "%")
                 NumberField(s.defaultMargin.toDouble(), { v -> store.settings { it.copy(defaultMargin = v.toInt().coerceIn(0, 95)) } },
                     "Marge visée par défaut", suffix = "%", decimals = false)
+            }
+
+            Section("Synchronisation téléphone et PC") {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Synchroniser par Internet", fontSize = 15.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                    Switch(
+                        checked = s.cloudSync,
+                        onCheckedChange = { on -> store.settings { it.copy(cloudSync = on) }; scope.launch { sync.syncNow() } },
+                        colors = SwitchDefaults.colors(checkedTrackColor = C.Bleu),
+                    )
+                }
+                Text(sync.status, fontSize = 13.sp, color = if (sync.ok) C.BleuDoux else C.Gris, fontWeight = FontWeight.Bold)
+                OutlinedButton(
+                    onClick = { scope.launch { sync.syncNow() } },
+                    enabled = s.cloudSync,
+                    modifier = Modifier.fillMaxWidth().height(48.dp), shape = RoundedCornerShape(12.dp),
+                    border = BorderStroke(1.dp, C.BleuPale),
+                ) { Text("Synchroniser maintenant", color = C.Bleu, fontWeight = FontWeight.Bold) }
+                Text("Tes prix et recettes se mettent à jour tout seuls sur le téléphone et le PC. La version la plus récente l'emporte.",
+                    fontSize = 13.sp, color = C.Gris)
             }
 
             Section("Menu affiché") {

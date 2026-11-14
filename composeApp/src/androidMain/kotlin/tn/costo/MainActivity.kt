@@ -66,6 +66,30 @@ class MainActivity : ComponentActivity() {
 
         override fun today(): String = SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).format(Date())
 
+        override fun nowMillis(): Long = System.currentTimeMillis()
+
+        override fun timeLabel(): String = SimpleDateFormat("HH:mm", Locale.FRANCE).format(Date())
+
+        override suspend fun httpRequest(method: String, url: String, body: String?, headers: Map<String, String>): Pair<Int, String> =
+            withContext(Dispatchers.IO) {
+                val c = URL(url).openConnection() as HttpURLConnection
+                try {
+                    c.connectTimeout = 10_000
+                    c.readTimeout = 20_000
+                    c.requestMethod = method
+                    headers.forEach { (k, v) -> c.setRequestProperty(k, v) }
+                    if (body != null) {
+                        c.doOutput = true
+                        c.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
+                    }
+                    val code = c.responseCode
+                    val stream = if (code in 200..299) c.inputStream else c.errorStream
+                    code to (stream?.use { it.readBytes().toString(Charsets.UTF_8) } ?: "")
+                } finally {
+                    c.disconnect()
+                }
+            }
+
         override suspend fun httpGet(url: String): String = withContext(Dispatchers.IO) {
             val c = URL(url).openConnection() as HttpURLConnection
             try {

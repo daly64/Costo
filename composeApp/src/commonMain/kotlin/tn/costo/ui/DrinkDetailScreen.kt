@@ -121,7 +121,10 @@ fun DrinkDetailScreen(store: Store, id: String, onBack: () -> Unit) {
                 HorizontalDivider(color = C.Bord)
                 LabelValue("Ingrédients", money(b.ingredients))
                 if (p.kind != Kind.REVENTE) LabelValue("Pertes (${num(d.settings.lossPct)} %)", money(b.losses))
-                if (p.kind == Kind.BOISSON) LabelValue("Coût fixe (énergie, nettoyage)", money(b.fixed))
+                if (p.kind == Kind.BOISSON) {
+                    LabelValue("Coût fixe (énergie, nettoyage)", money(b.fixed))
+                    LabelValue("Main-d'œuvre", money(b.labor))
+                }
                 LabelValue("Coût de revient", money(b.total), strong = true)
             }
 

@@ -6,13 +6,15 @@ recettes par portion, pertes, coût fixe par tasse, marge visée et prix de vent
 Écrite en **Kotlin Multiplatform** avec **Compose Multiplatform** : le même code donne
 l'app Android et une version PC.
 
-## Fonctions (version 1.0.0)
+## Fonctions (version 1.0.1)
 
 - Écrans de bienvenue (3 pages)
 - Boissons : coût par tasse, prix au menu, marge réelle (bleue si l'objectif est atteint, orange sinon)
 - Fiche boisson : ingrédients et doses, pertes, coût fixe, marge souhaitée, prix conseillé et arrondi
 - Ingrédients : prix d'achat par paquet, historique des prix avec tendance
 - Réglages : coût fixe, pertes, marge par défaut, récupération des prix de vente du menu, sauvegarde et restauration
+- Coût de revient = ingrédients + pertes (20 %) + coût fixe (0,100 DT) + main-d'œuvre (0,250 DT), tout réglable
+- Synchronisation téléphone / PC par Internet (API `server/` sur Vercel, données dans Neon)
 - Plein écran ; les mises à jour s'installent par-dessus sans perdre les données
 
 Les données de départ (prix d'achat, produits du menu, doses standard) sont dans
@@ -24,6 +26,7 @@ Les données de départ (prix d'achat, produits du menu, doses standard) sont da
 composeApp/src/commonMain   code commun (modèles, calculs, écrans)
 composeApp/src/androidMain  activité Android, icône, plein écran, sauvegarde
 composeApp/src/desktopMain  version PC
+server/                     API de synchronisation (Vercel + Neon)
 signing/                    clé de signature (garder le dépôt privé)
 ```
 

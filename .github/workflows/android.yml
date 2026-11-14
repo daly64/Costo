@@ -53,6 +53,18 @@ jobs:
           disable-animations: true
           script: bash .github/screenshots.sh
 
+      - name: Tester le serveur de synchronisation
+        if: always()
+        continue-on-error: true
+        run: |
+          mkdir -p out
+          KEY=$(grep 'const val KEY' composeApp/src/commonMain/kotlin/tn/costo/CloudSync.kt | sed -E 's/.*"(.*)".*/\1/')
+          URL=$(grep 'const val URL' composeApp/src/commonMain/kotlin/tn/costo/CloudSync.kt | sed -E 's/.*"(.*)".*/\1/')
+          {
+            echo "Sans clé : $(curl -s -o /dev/null -w '%{http_code}' "$URL")"
+            echo "Avec clé : $(curl -s -w ' (%{http_code})' -H "x-costo-key: $KEY" "$URL" | head -c 300)"
+          } > out/synchro.txt 2>&1
+
       - name: Publier l'APK sur la branche builds
         if: always()
         run: |

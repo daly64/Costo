@@ -18,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import tn.costo.ui.C
@@ -59,6 +60,9 @@ class Nav {
 @Composable
 fun App(platform: Platform, nav: Nav, startScreen: String? = null) {
     val store = remember { Store(platform) }
+    val scope = rememberCoroutineScope()
+    val sync = remember { CloudSync(store, platform, scope) }
+    LaunchedEffect(sync) { sync.loop() }
     var welcomeClosed by remember { mutableStateOf(false) }
     LaunchedEffect(startScreen) {
         when (startScreen) {
@@ -80,14 +84,14 @@ fun App(platform: Platform, nav: Nav, startScreen: String? = null) {
                     welcomeClosed = true
                 })
             } else {
-                MainScreen(store, nav, platform)
+                MainScreen(store, nav, platform, sync)
             }
         }
     }
 }
 
 @Composable
-private fun MainScreen(store: Store, nav: Nav, platform: Platform) {
+private fun MainScreen(store: Store, nav: Nav, platform: Platform, sync: CloudSync) {
     val route = nav.current
     Scaffold(
         containerColor = C.Fond,
@@ -123,7 +127,7 @@ private fun MainScreen(store: Store, nav: Nav, platform: Platform) {
                 is Route.Tab -> when (route.tab) {
                     TabId.BOISSONS -> DrinksScreen(store, onOpen = { nav.go(Route.Drink(it)) })
                     TabId.INGREDIENTS -> IngredientsScreen(store)
-                    TabId.REGLAGES -> SettingsScreen(store, platform)
+                    TabId.REGLAGES -> SettingsScreen(store, platform, sync)
                 }
             }
         }

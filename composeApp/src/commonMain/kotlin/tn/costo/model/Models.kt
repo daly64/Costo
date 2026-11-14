@@ -39,7 +39,7 @@ data class Ingredient(
 
 @Serializable
 enum class Kind(val label: String, val help: String) {
-    BOISSON("Boisson", "Pertes et coût fixe inclus"),
+    BOISSON("Boisson", "Pertes, coût fixe et main-d'œuvre inclus"),
     REVENTE("Revente", "Produit revendu tel quel, sans pertes ni coût fixe"),
     SUPPLEMENT("Supplément", "Pertes incluses, sans coût fixe"),
 }
@@ -68,19 +68,29 @@ data class Product(
 @Serializable
 data class Settings(
     /** Électricité, eau, gaz, nettoyage… par tasse, en DT. */
-    val fixedCost: Double = 0.080,
+    val fixedCost: Double = 0.100,
     /** Pertes (café renversé, lait jeté…), en %. */
-    val lossPct: Double = 5.0,
+    val lossPct: Double = 20.0,
+    /** Main-d'œuvre par tasse, en DT (salaires du mois ÷ tasses du mois). */
+    val laborCost: Double = 0.250,
     val defaultMargin: Int = 70,
     val menuUrl: String = "https://menu-board-api-murex.vercel.app/menu",
     val onboardingDone: Boolean = false,
     val lastSync: String? = null,
+    /** Synchronisation téléphone / PC par Internet. */
+    val cloudSync: Boolean = true,
 )
 
 @Serializable
 data class AppData(
-    val schema: Int = 1,
+    val schema: Int = AppData.SCHEMA,
+    /** Heure de la dernière modification (ms), pour savoir quelle version est la plus récente. */
+    val updatedAt: Long = 0,
     val ingredients: List<Ingredient> = emptyList(),
     val products: List<Product> = emptyList(),
     val settings: Settings = Settings(),
-)
+) {
+    companion object {
+        const val SCHEMA = 2
+    }
+}

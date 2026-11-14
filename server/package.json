@@ -1,0 +1,8 @@
+{
+  "name": "costo-api",
+  "private": true,
+  "description": "Synchronisation Costo (téléphone et PC) : une API sur Vercel, les données dans Neon.",
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.0"
+  }
+}

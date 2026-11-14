@@ -4,7 +4,7 @@ package tn.costo.model
  * Données de départ : prix d'achat donnés par le gérant (nov. 2026),
  * produits repris du menu Zicafe, et doses standard.
  * Doses : espresso 7 à 9 g de café (8 g retenus), cappuccino 100 à 150 ml de lait,
- * 1 bâtonnet de sucre = 5 g. Tout reste modifiable dans l'app.
+ * 1 bâtonnet de sucre = 5 g, 2 bâtonnets par café. Tout reste modifiable dans l'app.
  */
 object Seed {
     private fun ing(id: String, name: String, price: Double, qty: Double, unit: Unite) =
@@ -44,13 +44,13 @@ object Seed {
     const val SUPPLEMENTS = "Suppléments"
 
     val products = listOf(
-        p("14", "Express", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "sucre" to 5.0)),
-        p("15", "Demi", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 40.0, "sucre" to 5.0)),
-        p("17", "Allongé", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "sucre" to 5.0)),
-        p("18", "Américain", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 10.0, "sucre" to 5.0)),
-        p("47", "Cappuccino", CAFES, 2.5, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 120.0, "sucre" to 5.0)),
-        p("19", "Direct", CAFES, 2.5, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 150.0, "sucre" to 5.0)),
-        p("20", "Café au lait", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 120.0, "sucre" to 5.0)),
+        p("14", "Express", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "sucre" to 10.0)),
+        p("15", "Demi", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 40.0, "sucre" to 10.0)),
+        p("17", "Allongé", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "sucre" to 10.0)),
+        p("18", "Américain", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 10.0, "sucre" to 10.0)),
+        p("47", "Cappuccino", CAFES, 2.5, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 120.0, "sucre" to 10.0)),
+        p("19", "Direct", CAFES, 2.5, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 150.0, "sucre" to 10.0)),
+        p("20", "Café au lait", CAFES, 2.0, false, Kind.BOISSON, r("cafe" to 8.0, "lait" to 120.0, "sucre" to 10.0)),
         p("21", "Chocolat chaud", CAFES, 3.0, true, Kind.BOISSON, r("chocolat" to 25.0, "lait" to 200.0, "sucre" to 5.0)),
         p("48", "Café latte glacé", CAFES, 5.0, true, Kind.BOISSON, r("cafe" to 16.0, "lait" to 200.0, "sucre" to 10.0)),
         p("49", "Thé à la menthe", CAFES, 2.0, true, Kind.BOISSON, r("the_vert" to 3.0, "menthe" to 0.1, "sucre" to 15.0)),

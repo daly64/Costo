@@ -11,8 +11,9 @@ data class CostBreakdown(
     val ingredients: Double,
     val losses: Double,
     val fixed: Double,
+    val labor: Double,
 ) {
-    val total: Double get() = ingredients + losses + fixed
+    val total: Double get() = ingredients + losses + fixed + labor
 }
 
 fun AppData.ingredient(id: String): Ingredient? = ingredients.firstOrNull { it.id == id }
@@ -25,7 +26,8 @@ fun AppData.breakdown(p: Product): CostBreakdown {
     val sum = lines.sumOf { it.cost }
     val loss = if (p.kind == Kind.REVENTE) 0.0 else sum * settings.lossPct / 100.0
     val fixed = if (p.kind == Kind.BOISSON) settings.fixedCost else 0.0
-    return CostBreakdown(lines, sum, loss, fixed)
+    val labor = if (p.kind == Kind.BOISSON) settings.laborCost else 0.0
+    return CostBreakdown(lines, sum, loss, fixed, labor)
 }
 
 fun AppData.cost(p: Product): Double = breakdown(p).total

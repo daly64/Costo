@@ -13,8 +13,17 @@ interface Platform {
     /** Date du jour, ex. "14/11/2026". */
     fun today(): String
 
+    /** Heure actuelle en millisecondes. */
+    fun nowMillis(): Long
+
+    /** Heure du jour, ex. "15:02". */
+    fun timeLabel(): String
+
     /** Requête GET, appelée hors du fil principal. */
     suspend fun httpGet(url: String): String
+
+    /** Requête HTTP quelconque ; renvoie (code, corps). Exception si le réseau est indisponible. */
+    suspend fun httpRequest(method: String, url: String, body: String?, headers: Map<String, String>): Pair<Int, String>
 
     /** Propose d'enregistrer un fichier de sauvegarde ; onDone(true) si réussi. */
     fun exportBackup(fileName: String, json: String, onDone: (Boolean) -> Unit)

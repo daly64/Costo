@@ -12,8 +12,8 @@ plugins {
 
 // Version de l'app : augmenter versionCode à chaque nouvelle version
 // pour que l'APK s'installe par-dessus l'ancienne.
-val costoVersionCode = 1
-val costoVersionName = "1.0.0"
+val costoVersionCode = 2
+val costoVersionName = "1.0.1"
 
 kotlin {
     androidTarget {

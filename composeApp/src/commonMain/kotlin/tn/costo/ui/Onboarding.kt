@@ -142,7 +142,7 @@ private fun PriceIllustration() {
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(14.dp)) {
         Row(Modifier.fillMaxWidth()) {
             Text("Cappuccino", fontWeight = FontWeight.Bold, fontSize = 16.sp, modifier = Modifier.weight(1f))
-            Text("Coût 0,592 DT", fontSize = 14.sp, color = C.Gris)
+            Text("Coût 0,967 DT", fontSize = 14.sp, color = C.Gris)
         }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             listOf(60, 65, 70, 75).forEach { m ->
@@ -158,7 +158,7 @@ private fun PriceIllustration() {
             Modifier.fillMaxWidth().clip(RoundedCornerShape(16.dp)).background(C.Nuit).padding(horizontal = 18.dp, vertical = 14.dp),
         ) {
             Text("Prix de vente conseillé", color = C.BleuPale, fontSize = 13.sp, fontWeight = FontWeight.Bold)
-            Text("1,972 DT", color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.ExtraBold)
+            Text("3,223 DT", color = Color.White, fontSize = 30.sp, fontWeight = FontWeight.ExtraBold)
         }
     }
 }

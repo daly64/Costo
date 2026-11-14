@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import kotlinx.serialization.json.Json
 import tn.costo.model.AppData
 import tn.costo.model.Ingredient
+import tn.costo.model.Kind
 import tn.costo.model.PricePoint
 import tn.costo.model.Product
 import tn.costo.model.Seed
@@ -23,16 +24,56 @@ class Store(private val platform: Platform) {
     var data: AppData by mutableStateOf(load())
         private set
 
+    /** Appelé après chaque modification locale (pour la synchronisation). */
+    var onLocalChange: (() -> Unit)? = null
+
     private fun load(): AppData {
         val text = runCatching { platform.loadData() }.getOrNull()
         if (text.isNullOrBlank()) return Seed.data()
-        return runCatching { CostoJson.decodeFromString(AppData.serializer(), text) }
-            .getOrElse { Seed.data() }
+        val d = runCatching { CostoJson.decodeFromString(AppData.serializer(), text) }.getOrElse { return Seed.data() }
+        if (d.schema >= AppData.SCHEMA) return d
+        val migrated = migrate(d)
+        persist(migrated)
+        return migrated
+    }
+
+    /**
+     * Version 1.0.1 : coût fixe 100 millimes, pertes 20 %, main-d'œuvre 250 millimes,
+     * 2 bâtonnets de sucre (10 g) dans les cafés. Les valeurs déjà modifiées à la main sont gardées.
+     */
+    private fun migrate(d: AppData): AppData {
+        val s = d.settings
+        val settings = s.copy(
+            fixedCost = if (s.fixedCost == 0.080) 0.100 else s.fixedCost,
+            lossPct = if (s.lossPct == 5.0) 20.0 else s.lossPct,
+        )
+        val products = d.products.map { p ->
+            val isCoffee = p.kind == Kind.BOISSON && p.recipe.any { it.ingredientId == "cafe" }
+            if (!isCoffee) p
+            else p.copy(recipe = p.recipe.map { if (it.ingredientId == "sucre" && it.qty == 5.0) it.copy(qty = 10.0) else it })
+        }
+        return d.copy(schema = AppData.SCHEMA, settings = settings, products = products, updatedAt = platform.nowMillis())
+    }
+
+    private fun persist(d: AppData) {
+        runCatching { platform.saveData(CostoJson.encodeToString(AppData.serializer(), d)) }
     }
 
     fun update(change: (AppData) -> AppData) {
-        data = change(data)
-        runCatching { platform.saveData(CostoJson.encodeToString(AppData.serializer(), data)) }
+        data = change(data).copy(updatedAt = platform.nowMillis())
+        persist(data)
+        onLocalChange?.invoke()
+    }
+
+    /** Remplace les données par la version reçue d'un autre appareil (sans la renvoyer). */
+    fun replaceFromCloud(remote: AppData, remoteUpdatedAt: Long) {
+        val keep = data.settings
+        data = remote.copy(
+            schema = AppData.SCHEMA,
+            updatedAt = remoteUpdatedAt,
+            settings = remote.settings.copy(onboardingDone = keep.onboardingDone),
+        )
+        persist(data)
     }
 
     fun settings(change: (Settings) -> Settings) = update { it.copy(settings = change(it.settings)) }
@@ -70,7 +111,8 @@ class Store(private val platform: Platform) {
     fun restore(json: String): Boolean {
         val d = runCatching { CostoJson.decodeFromString(AppData.serializer(), json) }.getOrNull() ?: return false
         if (d.ingredients.isEmpty() && d.products.isEmpty()) return false
-        update { d.copy(settings = d.settings.copy(onboardingDone = true)) }
+        val restored = if (d.schema < AppData.SCHEMA) migrate(d) else d
+        update { restored.copy(settings = restored.settings.copy(onboardingDone = true)) }
         return true
     }
 
