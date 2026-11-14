@@ -1,0 +1,96 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :composeApp:convertXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :composeApp:copyNonXmlValueResourcesForAndroidMain NO-SOURCE
+> Task :composeApp:prepareComposeResourcesTaskForAndroidMain NO-SOURCE
+> Task :composeApp:convertXmlValueResourcesForAndroidRelease NO-SOURCE
+> Task :composeApp:copyNonXmlValueResourcesForAndroidRelease NO-SOURCE
+> Task :composeApp:prepareComposeResourcesTaskForAndroidRelease NO-SOURCE
+> Task :composeApp:convertXmlValueResourcesForCommonMain NO-SOURCE
+> Task :composeApp:copyNonXmlValueResourcesForCommonMain
+> Task :composeApp:prepareComposeResourcesTaskForCommonMain
+> Task :composeApp:copyReleaseComposeResourcesToAndroidAssets
+> Task :composeApp:generateResourceAccessorsForAndroidMain NO-SOURCE
+> Task :composeApp:generateResourceAccessorsForAndroidRelease NO-SOURCE
+> Task :composeApp:generateResourceAccessorsForCommonMain
+> Task :composeApp:convertXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :composeApp:copyNonXmlValueResourcesForDesktopMain NO-SOURCE
+> Task :composeApp:prepareComposeResourcesTaskForDesktopMain NO-SOURCE
+> Task :composeApp:generateResourceAccessorsForDesktopMain NO-SOURCE
+> Task :composeApp:buildKotlinToolingMetadata
+> Task :composeApp:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :composeApp:generateActualResourceCollectorsForAndroidMain
+> Task :composeApp:generateComposeResClass
+> Task :composeApp:generateExpectResourceCollectorsForCommonMain
+> Task :composeApp:preBuild UP-TO-DATE
+> Task :composeApp:preReleaseBuild UP-TO-DATE
+> Task :composeApp:checkReleaseAarMetadata
+> Task :composeApp:generateReleaseResValues FROM-CACHE
+> Task :composeApp:mapReleaseSourceSetPaths
+> Task :composeApp:generateReleaseResources FROM-CACHE
+> Task :composeApp:mergeReleaseResources FROM-CACHE
+> Task :composeApp:packageReleaseResources FROM-CACHE
+> Task :composeApp:parseReleaseLocalResources FROM-CACHE
+> Task :composeApp:createReleaseCompatibleScreenManifests
+> Task :composeApp:extractDeepLinksRelease FROM-CACHE
+> Task :composeApp:processReleaseMainManifest FROM-CACHE
+> Task :composeApp:processReleaseManifest FROM-CACHE
+> Task :composeApp:processReleaseManifestForPackage FROM-CACHE
+> Task :composeApp:processReleaseResources FROM-CACHE
+> Task :composeApp:javaPreCompileRelease FROM-CACHE
+> Task :composeApp:extractProguardFiles
+> Task :composeApp:mergeReleaseJniLibFolders
+> Task :composeApp:mergeReleaseNativeLibs
+
+> Task :composeApp:stripReleaseDebugSymbols
+Unable to strip the following libraries, packaging them as they are: libandroidx.graphics.path.so.
+
+> Task :composeApp:extractReleaseNativeSymbolTables FROM-CACHE
+> Task :composeApp:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :composeApp:checkReleaseDuplicateClasses
+> Task :composeApp:desugarReleaseFileDependencies FROM-CACHE
+> Task :composeApp:mergeReleaseStartupProfile
+> Task :composeApp:mergeExtDexRelease FROM-CACHE
+> Task :composeApp:mergeReleaseArtProfile
+> Task :composeApp:mergeReleaseShaders
+> Task :composeApp:compileReleaseShaders NO-SOURCE
+> Task :composeApp:generateReleaseAssets UP-TO-DATE
+> Task :composeApp:releaseAssetsCopyForAGP NO-SOURCE
+> Task :composeApp:mergeReleaseAssets
+> Task :composeApp:compressReleaseAssets FROM-CACHE
+> Task :composeApp:extractReleaseVersionControlInfo
+> Task :composeApp:optimizeReleaseResources FROM-CACHE
+> Task :composeApp:collectReleaseDependencies
+> Task :composeApp:sdkReleaseDependencyData
+> Task :composeApp:validateSigningRelease
+> Task :composeApp:writeReleaseAppMetadata
+> Task :composeApp:writeReleaseSigningConfigVersions
+> Task :composeApp:generateActualResourceCollectorsForDesktopMain
+> Task :composeApp:compileReleaseKotlinAndroid
+> Task :composeApp:compileKotlinDesktop
+> Task :composeApp:compileReleaseJavaWithJavac NO-SOURCE
+> Task :composeApp:generateReleaseLintVitalReportModel
+> Task :composeApp:dexBuilderRelease
+> Task :composeApp:mergeDexRelease
+> Task :composeApp:mergeReleaseGlobalSynthetics FROM-CACHE
+> Task :composeApp:compileReleaseArtProfile
+> Task :composeApp:processReleaseJavaRes
+> Task :composeApp:lintVitalAnalyzeRelease
+> Task :composeApp:lintVitalReportRelease
+> Task :composeApp:lintVitalRelease
+> Task :composeApp:mergeReleaseJavaResource
+> Task :composeApp:packageRelease
+> Task :composeApp:createReleaseApkListingFileRedirect
+> Task :composeApp:assembleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/build-1794665040852.json
+
+[Incubating] Problems report is available at: file:///home/runner/work/Costo/Costo/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.14.3/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 1m 29s
+57 actionable tasks: 40 executed, 17 from cache
