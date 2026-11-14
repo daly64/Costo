@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icône pour Android 7 (avant les icônes adaptatives). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#0E2F66"
+        android:pathData="M24,0 H76 A24,24 0 0 1 100,24 V76 A24,24 0 0 1 76,100 H24 A24,24 0 0 1 0,76 V24 A24,24 0 0 1 24,0 Z" />
+    <group
+        android:pivotX="50"
+        android:pivotY="50"
+        android:rotation="-35">
+        <path
+            android:fillColor="#FFFFFF"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="4"
+            android:strokeLineJoin="round"
+            android:pathData="M36,30 H78 C81.3,30 84,32.7 84,36 V64 C84,67.3 81.3,70 78,70 H36 L18,50 Z" />
+        <path
+            android:fillColor="#0E2F66"
+            android:pathData="M26.5,50 a4.5,4.5 0 1,0 9,0 a4.5,4.5 0 1,0 -9,0 Z" />
+        <path
+            android:fillColor="#1D5FBF"
+            android:pathData="M50,50 a10,13 0 1,0 20,0 a10,13 0 1,0 -20,0 Z" />
+        <path
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2.5"
+            android:strokeLineCap="round"
+            android:pathData="M60,38 C54,45 66,55 60,62" />
+    </group>
+</vector>

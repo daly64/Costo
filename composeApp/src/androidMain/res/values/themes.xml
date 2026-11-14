@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="costo_nuit">#0E2F66</color>
+    <color name="costo_bleu">#1D5FBF</color>
+    <color name="costo_fond">#F2F5FA</color>
+
+    <style name="Theme.Costo" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/costo_fond</item>
+        <item name="android:colorAccent">@color/costo_bleu</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>
